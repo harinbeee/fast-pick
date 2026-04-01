@@ -62,4 +62,11 @@ public class Schedule {
 		return new Schedule(performance, openTime, performTime, totalSeats);
 	}
 
+	public void decreaseSeats() {
+		if(this.availableSeats <=0) {
+			throw new IllegalStateException("잔여 좌석이 없습니다.");
+		}
+		this.availableSeats--;
+	}
+
 }
