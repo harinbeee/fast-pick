@@ -1,11 +1,13 @@
 package com.example.fastpick.domain.ticket.model;
 
 import com.example.fastpick.domain.schedule.model.Schedule;
+import com.example.fastpick.domain.user.model.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,25 +28,26 @@ public class Ticket {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "schedule_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "schedule_id", nullable = false)
 	private Schedule schedule;
 
-	@Column
-	private Long userId; // 나중에 유저 구현하면 바꾸자~!
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private TicketStatus status;
 
-	private Ticket(Schedule schedule, Long userId) {
+	private Ticket(Schedule schedule, User user) {
 		this.schedule = schedule;
-		this.userId = userId;
+		this.user = user;
 		this.status = TicketStatus.PENDING; // 티켓 생성 시 최초 상태는 결제 대기
 	}
 
-	public static Ticket create(Schedule schedule, Long userId) {
-		return new Ticket(schedule, userId);
+	public static Ticket create(Schedule schedule, User user) {
+		return new Ticket(schedule, user);
 	}
 
 }

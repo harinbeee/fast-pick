@@ -69,4 +69,8 @@ public class Schedule {
 		this.availableSeats--;
 	}
 
+	public int getAvailableSeats() {
+		return availableSeats;
+	}
+
 }
