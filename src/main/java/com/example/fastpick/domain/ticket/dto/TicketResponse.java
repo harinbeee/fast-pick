@@ -15,7 +15,7 @@ public record TicketResponse (
 			ticket.getSchedule().getPerformance().getTitle(),
 			ticket.getId(),
 			ticket.getSchedule().getId(),
-			ticket.getUserId(),
+			ticket.getUser().getId(),
 			ticket.getStatus()
 		);
 	}
