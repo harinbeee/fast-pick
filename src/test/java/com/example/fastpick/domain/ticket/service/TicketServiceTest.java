@@ -35,7 +35,7 @@ class TicketServiceTest {
 		Long targetScheId = 1L;
 		// when
 		for(int i = 0; i < threadCount; i++ ) {
-			long userId = i;
+			long userId = i + 1; // id 0 회피
 			executorService.submit(()-> {
 				try{
 					TicketRequest request = new TicketRequest(targetScheId, userId);
