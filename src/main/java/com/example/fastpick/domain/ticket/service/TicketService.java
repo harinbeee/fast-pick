@@ -32,8 +32,7 @@ public class TicketService {
 	@Transactional
 	public TicketResponse reserveTicket(TicketRequest request) {
 		// 1. 유저검증(포폴 MVP에서는 단순 조회/없으면 생성)
-		User user = userRepository.findById(request.userId())
-			.orElseGet(() -> userRepository.save(User.createWithId(request.userId(), "user-" + request.userId(), UserRole.CUSTOMER)));
+		User user = userRepository.findById(request.userId()).orElseThrow(()-> new RuntimeException());
 
 		// 2. 회차 찾기
 		Long scheduleId = request.scheduleId();

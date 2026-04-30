@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,11 +17,18 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "users")
+@AllArgsConstructor
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Column(nullable = false)
+	private String mail;
+
+	@Column(nullable = false)
+	private String password;
 
 	@Column(nullable = false)
 	private String name;
@@ -29,14 +37,12 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 
-	private User(Long id, String name, UserRole role) {
-		this.id = id;
+	public User(String mail, String password, String name, UserRole role) {
+		this.mail = mail;
+		this.password = password;
 		this.name = name;
 		this.role = role;
 	}
 
-	public static User createWithId(Long id, String name, UserRole role) {
-		return new User(id, name, role);
-	}
 }
 
