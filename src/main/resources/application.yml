@@ -37,3 +37,6 @@ fastpick:
   kafka:
     topics:
       ticket-requested: ticket-requested
+
+jwt:
+  secret: aG9yYW5naS10aWdlcnMtZmFzdC1waWNrLXNlY3JldC1rZXktZm9yLWp3dA== # (아무도 모르는 우리만의 비밀 키, Base64로 인코딩된 아무 문자열이나 길게 쓰면 됩니다)
