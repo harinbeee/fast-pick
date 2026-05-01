@@ -11,6 +11,7 @@ import com.example.fastpick.domain.user.dto.UserResponseDto;
 import com.example.fastpick.domain.user.model.User;
 import com.example.fastpick.domain.user.service.UserService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -22,7 +23,7 @@ public class UserController {
 
 	@PostMapping("/signup")
 	public UserResponseDto signUp (
-		@RequestBody SignUpRequestDto requestDto
+		@Valid @RequestBody SignUpRequestDto requestDto
 	){
 		UserResponseDto responseDto = userService.createUser(requestDto);
 		return responseDto;

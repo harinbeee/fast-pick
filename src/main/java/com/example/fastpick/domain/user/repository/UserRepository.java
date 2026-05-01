@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.example.fastpick.domain.user.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-	User findByMail(String mail);
+	Optional<User> findByMail(String mail);
 
 	@Query(
 		"""
