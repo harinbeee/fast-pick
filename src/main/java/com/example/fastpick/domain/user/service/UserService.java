@@ -6,10 +6,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.fastpick.domain.user.dto.LoginRequestDto;
+import com.example.fastpick.domain.user.dto.LoginResponseDto;
 import com.example.fastpick.domain.user.dto.SignUpRequestDto;
 import com.example.fastpick.domain.user.dto.UserResponseDto;
 import com.example.fastpick.domain.user.model.User;
 import com.example.fastpick.domain.user.repository.UserRepository;
+import com.example.fastpick.domain.util.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +21,7 @@ public class UserService {
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final JwtUtil jwtUtil;
 
 	public UserResponseDto createUser (SignUpRequestDto requestDto) {
 		if(userRepository.existsByMail(requestDto.mail())) {
@@ -32,12 +35,13 @@ public class UserService {
 		return new UserResponseDto(user.getMail(), user.getName());
 	}
 
-	public UserResponseDto loginUser (LoginRequestDto requestDto) {
+	public LoginResponseDto loginUser (LoginRequestDto requestDto) {
 		User user = userRepository.findByMail(requestDto.mail())
 			.orElseThrow(()-> new IllegalArgumentException("가입되지 않은 이메일입니다."));
 
 		if(passwordEncoder.matches(requestDto.password(), user.getPassword())) {
-			return new UserResponseDto(user.getMail(), user.getName());
+			String token = "Bearer "+ jwtUtil.createToken(user.getMail(), user.getRole().name());
+			return new LoginResponseDto(token);
 		} else {
 			throw new RuntimeException("비밀번호가 일치하지 않습니다.");
 		}

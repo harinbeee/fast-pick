@@ -5,6 +5,7 @@ import com.example.fastpick.domain.user.model.UserRole;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record SignUpRequestDto (
@@ -20,7 +21,7 @@ public record SignUpRequestDto (
 	@NotBlank(message = "유저 닉네임은 필수 입니다.")
 	String name,
 
-	@NotBlank(message = "유저 권한은 필수 입니다.")
+	@NotNull(message = "유저 권한은 필수 입니다.")
 	@Enumerated
 	UserRole role
 ){
