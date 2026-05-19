@@ -1,7 +1,5 @@
 package com.example.fastpick.domain.user.service;
 
-import java.util.Optional;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +9,7 @@ import com.example.fastpick.domain.user.dto.SignUpRequestDto;
 import com.example.fastpick.domain.user.dto.UserResponseDto;
 import com.example.fastpick.domain.user.model.User;
 import com.example.fastpick.domain.user.repository.UserRepository;
-import com.example.fastpick.domain.util.JwtUtil;
+import com.example.fastpick.domain.user.util.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.example.fastpick.domain.util;
+package com.example.fastpick.domain.user.util;
 
 import java.io.IOException;
 
