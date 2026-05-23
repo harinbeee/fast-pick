@@ -1,0 +1,49 @@
+package com.example.fastpick.domain.user.service;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.example.fastpick.domain.user.dto.LoginRequestDto;
+import com.example.fastpick.domain.user.dto.LoginResponseDto;
+import com.example.fastpick.domain.user.dto.SignUpRequestDto;
+import com.example.fastpick.domain.user.dto.UserResponseDto;
+import com.example.fastpick.domain.user.model.User;
+import com.example.fastpick.domain.user.repository.UserRepository;
+import com.example.fastpick.domain.user.util.JwtUtil;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+
+	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
+	private final JwtUtil jwtUtil;
+
+	public UserResponseDto createUser (SignUpRequestDto requestDto) {
+		if(userRepository.existsByMail(requestDto.mail())) {
+			throw new RuntimeException("이미 사용중인 메일 계정입니다.");
+		}
+
+		String encodedPassword = passwordEncoder.encode(requestDto.password());
+
+		User user = new User(requestDto.mail(),encodedPassword,requestDto.name(),requestDto.role());
+		userRepository.save(user);
+		return new UserResponseDto(user.getMail(), user.getName());
+	}
+
+	public LoginResponseDto loginUser (LoginRequestDto requestDto) {
+		User user = userRepository.findByMail(requestDto.mail())
+			.orElseThrow(()-> new IllegalArgumentException("가입되지 않은 이메일입니다."));
+
+		if(passwordEncoder.matches(requestDto.password(), user.getPassword())) {
+			String token = "Bearer "+ jwtUtil.createToken(user.getMail(), user.getRole().name());
+			return new LoginResponseDto(token);
+		} else {
+			throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+		}
+	}
+
+
+}

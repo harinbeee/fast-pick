@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum TicketStatus {
 	PENDING("결제 대기"),
 	CONFIRMED("예매 완료"),
-	CANCLED("취소");
+	CANCELED("취소");
 
 
 	private final String  description;
-}
+	}
