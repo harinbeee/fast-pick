@@ -30,13 +30,16 @@ public class TicketService {
 	티켓 예매
 	 */
 	@Transactional
-	public TicketResponse reserveTicket(TicketRequest request) {
+	public TicketResponse reserveTicket(TicketRequest request, String userMail) {
 		// 1. 유저검증(포폴 MVP에서는 단순 조회/없으면 생성)
-		User user = userRepository.findById(request.userId()).orElseThrow(()-> new RuntimeException());
+		User user = userRepository.findByMail(userMail).orElseThrow(()->new IllegalArgumentException("존재하지 않는 유저입니다."));
+
 
 		// 2. 회차 찾기
 		Long scheduleId = request.scheduleId();
-		Schedule targetSche = scheduleRepository.findByIdWithPessimisticLock(scheduleId).orElseThrow(()-> new RuntimeException("존재하지 않는 스케줄입니다."));
+		Schedule targetSche =
+			scheduleRepository.findByIdWithPessimisticLock(scheduleId)
+				.orElseThrow(()-> new RuntimeException("존재하지 않는 스케줄입니다."));
 
 		if(targetSche.getStatus()!= ScheduleStatus.OPEN) {
 			throw new IllegalStateException("예매중이 아닙니다.");
