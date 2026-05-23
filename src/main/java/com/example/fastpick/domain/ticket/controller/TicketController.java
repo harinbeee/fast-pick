@@ -26,7 +26,7 @@ public class TicketController {
 	) {
 
 		String userMail = authentication.getName();
-		return ticketService.reserveTicket(request);
+		return ticketService.reserveTicket(request, userMail);
 	}
 
 }

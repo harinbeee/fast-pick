@@ -43,3 +43,6 @@ db/data/**
 ### Local secrets / keys (if generated under db/) ###
 db/**/*.pem
 db/**/*.key
+
+src/main/resources/application.yml
+.env
